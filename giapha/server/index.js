@@ -3,8 +3,7 @@ import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
 dotenv.config();
-
-// Import routes
+import userRoutes from "./routes/userRoutes.js";
 import memberRoutes from "./routes/memberRoutes.js";
 import familyRoutes from "./routes/familyRoutes.js";
 const app = express();
@@ -17,6 +16,7 @@ app.get("/", (req, res) => {
 // Sử dụng routes
 app.use("/api", memberRoutes);
 app.use("/api", familyRoutes);
+app.use("/api", userRoutes);
 mongoose.connect(process.env.MONGO_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
-
+import { useNavigate } from "react-router-dom";
 const Tag = ({ color, icon, label }) => {
     const colors = {
         orange: "bg-orange-50 text-orange-800",
@@ -19,8 +19,13 @@ const Tag = ({ color, icon, label }) => {
 };
 
 const NavBar = () => {
+    const navigate = useNavigate();
     const [isOpen, setIsOpen] = useState(false); // state cho mobile menu
-
+    const checkout = () => {
+        localStorage.removeItem("token");
+        alert("Đăng xuất thành công!");
+        navigate('/');
+    }
     return (
         <header className="relative w-full bg-white shadow">
             <nav className="max-w-[85rem] w-full mx-auto px-4 sm:flex sm:items-center sm:justify-between py-3">
@@ -30,7 +35,7 @@ const NavBar = () => {
                         to="/"
                         className="flex-none text-xl font-semibold focus:outline-none focus:opacity-80"
                     >
-                        Mern-Blog
+                        FamilyTree
                     </NavLink>
 
                     {/* Mobile menu button */}
@@ -100,22 +105,24 @@ const NavBar = () => {
                         >
                             Giới Thiệu
                         </NavLink>
-                        <NavLink
+                        {localStorage.getItem("token") ? null : (<NavLink
                             to="/register"
                             className={({ isActive }) =>
                                 `font-medium ${isActive ? "text-blue-600" : "text-gray-800 hover:text-gray-600"}`
                             }
                         >
                             Đăng ký
-                        </NavLink>
-                        <NavLink
+                        </NavLink>)}
+                        {localStorage.getItem("token") ? (<NavLink onClick={checkout} className={({ isActive }) =>
+                            `font-medium ${isActive ? "text-blue-600" : "text-gray-800 hover:text-gray-600"}`
+                        }>Đăng xuất</NavLink>) : (<NavLink
                             to="/login"
                             className={({ isActive }) =>
                                 `font-medium ${isActive ? "text-blue-600" : "text-gray-800 hover:text-gray-600"}`
                             }
                         >
                             Đăng Nhập
-                        </NavLink>
+                        </NavLink>)}
                     </div>
                 </div>
             </nav>
